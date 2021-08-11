@@ -26,3 +26,32 @@
   (+ valor 10))
 
 (println (update precos 1 soma-10))                         ; soma 10 ao número na posição 1 da lista
+
+
+;; utilizando `map` para percorrer uma lista
+(defn aplica-desconto?
+  [valor-bruto]
+  (> valor-bruto 100))
+
+(defn valor-descontado
+  [valor-bruto]
+  (if (aplica-desconto? valor-bruto)
+    (let [taxa-desconto 10/100
+          desconto      (* valor-bruto taxa-desconto)]
+      (- valor-bruto desconto))
+    valor-bruto))
+
+
+(println "======  MAP ======")
+; mapeia a função `valor-descontado` para cada item de `precos`
+(println (map valor-descontado precos))
+
+
+;; utilizando `filter` para filtrar itens da coleção
+(println "====== FILTER ======")
+(println (filter aplica-desconto? precos))
+
+; even? - função padrão do clojure que diz se um número é par
+; range - função que retorna uma lista do range informado (exclusiva, ou seja, no exemplo abaixo o 10 fica de fora - a lista é de 0 a 9)
+(println (filter even? (range 10)))
+
