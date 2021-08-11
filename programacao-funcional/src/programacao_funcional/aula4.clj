@@ -55,3 +55,17 @@
 ; range - função que retorna uma lista do range informado (exclusiva, ou seja, no exemplo abaixo o 10 fica de fora - a lista é de 0 a 9)
 (println (filter even? (range 10)))
 
+
+;; utilizando `reduce`
+(println "====== REDUCE ======")
+(println (reduce + precos))                                 ; aplica a função `+` a todos os itens do array
+(println (reduce + precos))                                 ; aplica a função `+` a todos os itens do array
+
+(defn minha-soma
+  [x y]
+  (println "Somando:" x y)
+  (+ x y))
+
+(println (reduce minha-soma precos))                        ; aplica a função `minha-soma` a todos os itens do array
+(println (reduce + 45 precos))                              ; podemos passar um valor inicial como o terceiro elemento da função `reduce`
+(println (reduce minha-soma 4 precos))                      ; neste caso, a soma já inicia com o valor 4 e, então, começa a somar com os números da lista
