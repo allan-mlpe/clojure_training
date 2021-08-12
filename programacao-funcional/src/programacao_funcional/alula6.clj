@@ -92,3 +92,23 @@
 (def pago-com-composicao? (comp not gratuito?))             ; definimos um símbolo como a composição de 2 funções
 
 (println (pago-com-composicao? {:valor 40}))
+
+(println "=========================================================")
+(println "Exercício - Contar total de certificados")
+(def clientes [
+               {:nome         "Guilherme"
+                :certificados ["Clojure" "Java" "Machine Learning"]}
+               {:nome         "Paulo"
+                :certificados ["Java" "Ciência da Computação"]}
+               {:nome         "Daniela"
+                :certificados ["Arquitetura" "Gastronomia"]}])
+
+
+(defn total-de-certificados
+  [clientes]
+  (->> clientes
+       (map :certificados)                                  ; obtém a lista de certificados
+       (map count)                                          ; gera uma lista com os números de certificados de cada cliente (3, 2, 2)
+       (reduce +)))                                         ; realiza a soma da quantidade de certificados de casa usuário
+
+(println (total-de-certificados clientes))
