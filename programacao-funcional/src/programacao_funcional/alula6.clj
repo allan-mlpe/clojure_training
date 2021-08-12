@@ -68,3 +68,27 @@
 
 
 (println (preco-total-pedido-v2 pedido))
+
+
+(println "================ FILTER EM MAPAS ================")
+
+
+(defn pago?
+  [item]
+  (> (:valor item) 0))
+
+(defn gratuito?
+  [item]
+  (not (pago? item)))
+
+
+(println "Filtrando passando `vals` do mapa:" (filter pago? (vals pedido)))
+(println "Filtrando com função anônima:" (filter (fn [[_ valor]] (gratuito? valor)) pedido))
+(println "Filtrando com lambda:" (filter #(pago? (second %)) pedido)) ; `second` pega o segundo parâmetro do lambda
+
+
+(println "===== COMPOSIÇÃO =====")
+(comp not pago?)                                            ; é uma composição de funções: not e pago
+(def pago-com-composicao? (comp not gratuito?))             ; definimos um símbolo como a composição de 2 funções
+
+(println (pago-com-composicao? {:valor 40}))
