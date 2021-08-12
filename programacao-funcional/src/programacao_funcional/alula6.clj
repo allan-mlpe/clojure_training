@@ -112,3 +112,8 @@
        (reduce +)))                                         ; realiza a soma da quantidade de certificados de casa usuário
 
 (println (total-de-certificados clientes))
+
+
+(println "Imprimindo todos os certificados #######################################################")
+
+(map println (reduce into (map :certificados clientes)))
