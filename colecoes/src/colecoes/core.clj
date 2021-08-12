@@ -1,6 +1,7 @@
 (ns colecoes.core)
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn greeting
+  []
+  (println "Curso de coleções"))
+
+(greeting)
