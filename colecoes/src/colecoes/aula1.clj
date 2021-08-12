@@ -29,6 +29,7 @@
   (let [primeiro-elemento (first lista)]
     (if (not (nil? primeiro-elemento))
       (do (funcao primeiro-elemento)                       ; utilizamos um bloco `do` para definir uma lista de instruções a serem executadas caso o `if` seja true
-      (mapa-customizado funcao (next lista))))))
+      (recur funcao (next lista))))))                      ; trocamos a chamada de `mapa-customizado` por `recur` para não termos problemas de estouro de pilha
 
 (mapa-customizado println pessoas)
+;(mapa-customizado println (range 100000))
