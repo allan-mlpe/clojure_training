@@ -31,3 +31,6 @@
   (take 2 resumo))
 
 (println "TOP-2 clientes:" (top-2-gastos resumo-maior-gasto-para-menor))
+
+; checando se há algum elemento que obedece a alguma condição
+(println (some #(> 500 (:total-gasto %)) resumo-maior-gasto-para-menor))
