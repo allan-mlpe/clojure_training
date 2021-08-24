@@ -1,5 +1,6 @@
 (ns mutabilidade-com-atomos-e-refs.colecoes
-  (:import [clojure.lang PersistentQueue]))
+  (:import [clojure.lang PersistentQueue])
+  (:use [clojure pprint]))                                  ; função de clojure para imprimir coisas no console de maneira mais amigável
 
 (defn testa-vetor
   "Executa uma série de testes com um vetor"
@@ -40,10 +41,10 @@
   "Executa uma série de testes com uma fila"
   []
   (let [espera (conj PersistentQueue/EMPTY "111" "222")]    ; definição de fila: clojure.lang PersistentQueue/EMPTY
-    (println espera)
-    (println (conj espera "333"))                           ; adiciona "333" no fim da fila
-    (println (pop espera))                                  ; remove o primeiro elemento da fila
-    (println (peek espera))))                               ; pega o primeiro elemento da fila
+    (pprint espera)
+    (pprint (conj espera "333"))                           ; adiciona "333" no fim da fila
+    (pprint (pop espera))                                  ; remove o primeiro elemento da fila
+    (pprint (peek espera))))                               ; pega o primeiro elemento da fila
 
 (println "\n# Teste com filas")
 (testa-fila)
