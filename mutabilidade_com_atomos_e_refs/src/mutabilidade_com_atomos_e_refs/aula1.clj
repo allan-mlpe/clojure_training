@@ -19,6 +19,14 @@
   (def hospital (h.logic/atende hospital :espera))
 
   (println "======== Hospital após alguns atendimentos:")
+  (pprint hospital)
+
+  (println "======== Forçando lotação de fila (para lançar exception):")
+  (def hospital (h.logic/chega-em hospital :laboratorio1 "1"))
+  (def hospital (h.logic/chega-em hospital :laboratorio1 "2"))
+  (def hospital (h.logic/chega-em hospital :laboratorio1 "3"))
+  (def hospital (h.logic/chega-em hospital :laboratorio1 "4"))
+  (def hospital (h.logic/chega-em hospital :laboratorio1 "5"))
   (pprint hospital))
 
 (simula-um-dia)
