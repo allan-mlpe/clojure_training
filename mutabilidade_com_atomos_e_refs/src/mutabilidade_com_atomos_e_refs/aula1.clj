@@ -22,11 +22,12 @@
   (pprint hospital)
 
   (println "======== Forçando lotação de fila (para lançar exception):")
+  (.start (Thread. (fn [] (Thread/sleep 3000)
+                     (pprint hospital))))
   (def hospital (h.logic/chega-em hospital :laboratorio1 "1"))
   (def hospital (h.logic/chega-em hospital :laboratorio1 "2"))
   (def hospital (h.logic/chega-em hospital :laboratorio1 "3"))
   (def hospital (h.logic/chega-em hospital :laboratorio1 "4"))
-  (def hospital (h.logic/chega-em hospital :laboratorio1 "5"))
-  (pprint hospital))
+  (def hospital (h.logic/chega-em hospital :laboratorio1 "5")))
 
 (simula-um-dia)
