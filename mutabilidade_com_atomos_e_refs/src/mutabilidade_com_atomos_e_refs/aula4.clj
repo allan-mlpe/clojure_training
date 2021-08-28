@@ -3,9 +3,14 @@
   (:require [mutabilidade-com-atomos-e-refs.model :as h.model]
             [mutabilidade-com-atomos-e-refs.logic :as h.logic]))
 
+; quando uma função tem efeitos colaterais
+; como a mudança de estado de um símbolo,
+; devemos usar `!` para tornar isso explícito
 (defn chega-em-teste!
   [hospital departamento pessoa]
-  (swap! hospital h.logic/chega-em departamento pessoa))
+  ; (swap! hospital update departamento conj pessoa)        ; fila sem limites
+  (swap! hospital h.logic/chega-em departamento pessoa)     ; fila com limite
+  )
 
 
 (defn simula-um-dia-lazy []
@@ -69,4 +74,29 @@
 
     (pprint hospital)))
 
-(simula-um-dia-com-partial)
+;(simula-um-dia-com-partial)
+
+(defn simula-um-dia-com-doseq []
+  (let [hospital (atom (h.model/novo-hospital))
+        pessoas ["1" "2" "3" "4" "5"]]
+
+    ; usamos `doseq` quando nos importamos em
+    ; iterar por todos os elementos da coleção
+    (doseq [pessoa pessoas]
+      (starta-thread-de-entrada hospital pessoa))
+
+    (pprint hospital)))
+
+;(simula-um-dia-com-doseq)
+
+(defn simula-um-dia-com-dotimes []
+  (let [hospital (atom (h.model/novo-hospital))]
+
+    ; usamos `dotimes` quando queremos executar
+    ; uma função por um número definido de vezes
+    (dotimes [pessoa 10]                                      ; executaremos a função 10 vezes
+      (starta-thread-de-entrada hospital pessoa))
+
+    (pprint hospital)))
+
+(simula-um-dia-com-dotimes)
