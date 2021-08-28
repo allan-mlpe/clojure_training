@@ -24,3 +24,15 @@
     (pprint @hospital-pe)))
 
 (teste-atomao)
+
+; `swap!` funciona como uma transação atômica
+; quando ela começa a executar, caso haja alguma
+; alteração no átomo nesse meio tempo, como uma
+; mudança feita por outra thread, por exemplo, ela
+; automaticamente irá tentar chamar a função novamente
+; para considerar os valores atualizados.
+;
+; IMPORTANTE: devemos deixar o mínimo possível de
+; processamento nas funções que passamos para o swap!
+; a fim de que, ao fazer retry, não exista muita coisa
+; a ser feita nesse processamento
