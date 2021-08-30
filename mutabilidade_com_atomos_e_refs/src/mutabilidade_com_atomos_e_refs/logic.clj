@@ -26,3 +26,19 @@
     (-> hospital
         (atende fila-origem)
         (chega-em fila-destino proximo))))
+
+(defn atende-completo
+  [hospital departamento]
+  (let [pessoa (peek (get hospital departamento))
+        hospital-atualizado (update hospital departamento pop)]
+    {:pessoa pessoa
+     :hospital hospital-atualizado}))
+
+(defn atende-completo-com-juxt
+  [hospital departamento]
+  (let [fila (get hospital departamento)
+        peek-pop (juxt peek pop)                            ; o `juxt` irá chamar as funções passadas em parênteses e retornar o resultado em um array, onde a primeira posição é o resultado da primeira função e assim sucessivamente
+        [pessoa fila-atualizada] (peek-pop fila)
+        hospital-atualizado (assoc hospital departamento fila-atualizada)]
+    {:pessoa pessoa
+     :hospital hospital-atualizado}))

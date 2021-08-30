@@ -19,6 +19,9 @@
     (chega-em! hospital "Joãozinho")
 
     (transfere! hospital :espera :laboratorio1)
+
+    ;(pprint (h.logic/atende-completo @hospital :espera))
+    ;(pprint (h.logic/atende-completo-com-juxt @hospital :espera))
     (pprint hospital)
     ))
 
