@@ -25,4 +25,28 @@
     )
   )
 
-(simula-um-dia)
+;(simula-um-dia)
+
+
+(defn async-chega-em [hospital pessoa]
+  (future                                                   ; a future não retorna uma exception. Em vez disso, ela guarda a exception e segue o fluxo do programa. Se quisermos acessar a exception, devemos armazenar a future e acessar o seu resultado
+   (Thread/sleep (rand 5000))
+    (dosync
+     (println "Tentando adicionar a pessoa:" pessoa)
+     (chega-em! hospital pessoa))))
+
+
+(defn simula-um-dia-async []
+  (let [hospital {:espera (ref h.model/fila-vazia)
+                  :laboratorio1 (ref h.model/fila-vazia)
+                  :laboratorio2 (ref h.model/fila-vazia)
+                  :laboratorio3 (ref h.model/fila-vazia)}]
+
+    (dotimes [pessoa 10]
+     (async-chega-em hospital pessoa))
+    (Thread/sleep 8000)
+    (pprint hospital)
+    )
+  )
+
+(simula-um-dia-async)
