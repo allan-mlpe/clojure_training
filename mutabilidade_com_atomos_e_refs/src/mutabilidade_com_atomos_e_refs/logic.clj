@@ -15,3 +15,14 @@
 (defn atende
   [hospital departamento]
   (update hospital departamento pop))                       ; aplicamos o `pop` no `departamento` recebido e devolvemos o `hospital` atualizado
+
+(defn proximo-da-fila
+  [hospital departamento]
+  (peek (get hospital departamento)))
+
+(defn transfere
+  [hospital fila-origem fila-destino]
+  (let [proximo (proximo-da-fila hospital fila-origem)]
+    (-> hospital
+        (atende fila-origem)
+        (chega-em fila-destino proximo))))
