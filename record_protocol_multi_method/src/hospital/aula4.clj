@@ -4,33 +4,6 @@
 (defrecord PacienteParticular [id, nome, situacao, nascimento])
 (defrecord PacientePlanoDeSaude [id, nome, nascimento, situacao, plano])
 
-(defprotocol Cobravel
-  (deve-assinar-pre-autorizacao? [paciente procedimento valor]))
-
-(defn nao-eh-urgente? [paciente]
-  (not= :urgente (get paciente :situacao)))
-
-(extend-type PacienteParticular
-  Cobravel
-  (deve-assinar-pre-autorizacao? [paciente _ valor]
-    (and (>= valor 50) (nao-eh-urgente? paciente))))
-
-(extend-type PacientePlanoDeSaude
-  Cobravel
-  (deve-assinar-pre-autorizacao?
-    [paciente procedimento _]
-    (let [plano (:plano paciente)]
-      (and (not (some #(= % procedimento) plano)) (nao-eh-urgente? paciente)))))
-
-(let [paciente-particular (->PacienteParticular 1 "Bob" :normal "11/11/11")
-      paciente-plano      (->PacientePlanoDeSaude 2 "João" "10/11/12" :urgente [:raio-x :sangue])]
-
-  (println "### Estendendo com records e protocols ###")
-  (println (deve-assinar-pre-autorizacao? paciente-particular :sangue 30))
-  (println (deve-assinar-pre-autorizacao? paciente-particular :ultrassom 500))
-  (println (deve-assinar-pre-autorizacao? paciente-plano :ultrassom 500))
-  (println (deve-assinar-pre-autorizacao? paciente-plano :raio-x 700)))
-
 ; função com várias implementações
 ;; No caso abaixo, quando chamarmos a função
 ;; `deve-assinar-pre-autorizacao-multi?` com qualquer parâmetro
@@ -57,7 +30,7 @@
 (let [paciente-particular (->PacienteParticular 1 "Bob" :normal "11/11/11")
       paciente-plano      (->PacientePlanoDeSaude 2 "João" "10/11/12" :urgente [:raio-x :sangue])]
 
-  (println "\n\n\n### Estendendo com defmulti e defmethod ###")
+  (println "### Estendendo com defmulti e defmethod ###")
   (println (deve-assinar-pre-autorizacao-multi? paciente-particular))
   (println (deve-assinar-pre-autorizacao-multi? paciente-plano)))
 
