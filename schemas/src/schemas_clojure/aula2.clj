@@ -31,3 +31,27 @@
   {:id id, :nome nome})
 
 (pprint (novo-paciente 15 "Joquinha"))
+
+; podemos usar uma função para definir uma regra de validação
+(defn estritamente-positivo? [x]
+  (> x 0))
+
+; passamos uma função para ser validada
+; no schema como um predicate.
+;
+; assim, quando validarmos algum valor
+; como `EstritamentePositivo` essa função
+; será executada e caso seja false, um
+; erro será retornado.
+(def EstritamentePositivo (s/pred estritamente-positivo?))
+
+(pprint (s/validate EstritamentePositivo 15))
+;(pprint (s/validate EstritamentePositivo 0))
+;(pprint (s/validate EstritamentePositivo -15))
+
+; já existe uma função `pos?` de clojure que retorna se um número é positivo.
+; já existe uma função `pos-int?` de clojure que retorna se um número é positivo E inteiro.
+; abaixo, o `estritamente-positivo` é usado apenas para fins de demonstração
+(def Paciente
+  {:id   (s/constrained s/Int estritamente-positivo?)       ; `s/constrained` nos permite combinar schemas, assim o `id` tem que ser inteiro E estritamente positivo
+   :nome s/Str})
