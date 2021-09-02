@@ -1,4 +1,4 @@
-(ns schemas.core-test
+(ns schemas_clojure.core-test
   (:require [clojure.test :refer :all]
             [schemas.core :refer :all]))
 
