@@ -19,3 +19,18 @@
 
   (testing "Não cabe em fila inexistente"
     (is (not (cabe-na-fila? {:espera []} :raio-x)))))
+
+(deftest chega-em-test
+  (testing "Chega na fila com sucesso"
+    (is (= {:espera [42]}
+           (chega-em {:espera []} :espera 42)))
+
+    (is (= {:espera [27 12 11 56 42]}
+           (chega-em {:espera [27 12 11 56]} :espera 42)))
+
+    (is (= {:espera [1 98 42]}
+           (chega-em {:espera [1 98]} :espera 42))))
+
+
+
+  )
