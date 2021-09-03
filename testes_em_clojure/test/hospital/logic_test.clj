@@ -1,6 +1,12 @@
 (ns hospital.logic-test
   (:require [clojure.test :refer :all]
-            [hospital.logic :refer :all]))
+            [hospital.logic :refer :all]
+            [hospital.model :as h.model]))
+
+(defn cria-fila [& itens]
+  (if (not (nil? itens))
+    (reduce conj h.model/fila-vazia itens)
+    h.model/fila-vazia))
 
 (deftest cabe-na-fila?-test
   (testing "Cabe na fila vazia"
@@ -33,9 +39,37 @@
 
   (testing "Chega na fila cheia deve lançar exceção"
     (is (thrown? clojure.lang.ExceptionInfo
-           (chega-em {:espera [1 23 3 41 22]} :espera 42))))
+                 (chega-em {:espera [1 23 3 41 22]} :espera 42))))
 
   (testing "Chega na fila inexistente deve lançar exceção"
     (is (thrown? clojure.lang.ExceptionInfo
                  (chega-em {:espera [23]} :triagem 42))))
   )
+
+
+(deftest transfere-test
+  (testing "Transfere pessoas quando há vagas"
+    (let [hospital {:espera (cria-fila 21)
+                    :raio-x (cria-fila 22)}]
+      (is (= {:espera (cria-fila)
+              :raio-x (cria-fila 22 21)}
+             (transfere hospital :espera :raio-x))))
+
+    (let [hospital {:espera (cria-fila 21 2 3 45 12)
+                    :raio-x (cria-fila)}]
+      (is (= {:espera (cria-fila 2 3 45 12)
+              :raio-x (cria-fila 21)}
+             (transfere hospital, :espera, :raio-x))))
+
+    (let [hospital {:espera (cria-fila 2245 2)
+                    :raio-x (cria-fila 21 44 3 11)}]
+      (is (= {:espera (cria-fila 2)
+              :raio-x (cria-fila 21 44 3 11 2245)}
+             (transfere hospital, :espera, :raio-x))))
+    )
+
+  (testing "Recusa pessoas quando não há vagas"
+    (let [hospital {:espera (cria-fila 21)
+                    :raio-x (cria-fila 22 23 45 11 10)}]
+      (is (thrown? clojure.lang.ExceptionInfo
+                   (transfere hospital :espera :raio-x))))))
