@@ -11,3 +11,20 @@
   [hospital departamento pessoa]
   (if (cabe-na-fila? hospital departamento)
     (update hospital departamento conj pessoa)))
+
+(defn atende
+  [hospital departamento]
+  (update hospital departamento pop))
+
+(defn proximo
+  [hospital departamento]
+  (-> hospital
+      departamento
+      peek))
+
+(defn transfere
+  [hospital fila-origem fila-destino]
+  (let [proximo-da-fila (proximo hospital fila-origem)]
+    (-> hospital
+        (atende fila-origem)
+        (chega-em fila-destino proximo-da-fila))))
