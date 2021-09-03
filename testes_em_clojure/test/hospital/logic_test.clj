@@ -31,6 +31,11 @@
     (is (= {:espera [1 98 42]}
            (chega-em {:espera [1 98]} :espera 42))))
 
+  (testing "Chega na fila cheia deve lançar exceção"
+    (is (thrown? clojure.lang.ExceptionInfo
+           (chega-em {:espera [1 23 3 41 22]} :espera 42))))
 
-
+  (testing "Chega na fila inexistente deve lançar exceção"
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (chega-em {:espera [23]} :triagem 42))))
   )

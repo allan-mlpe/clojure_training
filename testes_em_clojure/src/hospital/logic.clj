@@ -10,7 +10,8 @@
 (defn chega-em
   [hospital departamento pessoa]
   (if (cabe-na-fila? hospital departamento)
-    (update hospital departamento conj pessoa)))
+    (update hospital departamento conj pessoa)
+    (throw (ex-info "Fila cheia ou inexistente" {:pessoa pessoa :fila departamento}))))
 
 (defn atende
   [hospital departamento]
