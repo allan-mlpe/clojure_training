@@ -29,10 +29,22 @@
       departamento
       peek))
 
+(defn mesmo-tamanho
+  [hospital hospital-atualizado fila-origem fila-destino]
+  (= (+ (count (get hospital fila-destino)) (count (get hospital fila-origem)))
+     (+ (count (get hospital-atualizado fila-destino)) (count (get hospital-atualizado fila-origem)))))
+
 (s/defn transfere :- h.model/Hospital
   [hospital :- h.model/Hospital
    fila-origem :- s/Keyword
    fila-destino :- s/Keyword]
+  ; a definição de pré e pós condições vem logo após a lista de parâmetros
+  ; devemos usar as keywords `pre` e `post` e ambas recebem uma lista com
+  ; funções que devem ser executadas para validar a entrada e/ou saída
+  {:pre [(contains? hospital fila-origem)                       ; definindo pré-condições para a função
+         (contains? hospital fila-destino)]
+   :post [(mesmo-tamanho hospital % fila-origem fila-destino)]  ; definindo pós-condições para a função.
+   }
   (let [proximo-da-fila (proximo hospital fila-origem)]
     (-> hospital
         (atende fila-origem)

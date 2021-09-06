@@ -75,4 +75,22 @@
     (let [hospital {:espera (cria-fila 21)
                     :raio-x (cria-fila 22 23 45 11 10)}]
       (is (thrown? clojure.lang.ExceptionInfo
-                   (transfere hospital :espera :raio-x))))))
+                   (transfere hospital :espera :raio-x)))))
+
+  ; abaixo estamos validando coisas que restringimos
+  ; utiliznado pré-condições. Cabe a nós decidirmos se
+  ; isso faz sentido ou não no nosso contexto.
+  (testing "Recusa pessoas quando fila de origem não existe"
+    (let [hospital {:espera (cria-fila 21)
+                    :raio-x (cria-fila 22 23 45 11 10)}]
+      (is (thrown? java.lang.AssertionError
+                   (transfere hospital :espera-deitado :raio-x)))))
+
+  (testing "Recusa pessoas quando fila de destino não existe"
+    (let [hospital {:espera (cria-fila 21)
+                    :raio-x (cria-fila 22 23 45 11 10)}]
+      (is (thrown? java.lang.AssertionError
+                   (transfere hospital :espera :oftalmo)))))
+
+
+  )
