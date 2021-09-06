@@ -2,14 +2,16 @@
   (:require [clojure.test :refer :all]
             [hospital.logic :refer :all]
             [hospital.model :as h.model]
+            [clojure.test.check.clojure-test :refer [defspec]]
             [clojure.test.check.generators :as gen]
+            [clojure.test.check.properties :as prop]
             [schema.core :as s]))
 
 (s/set-fn-validation! true)
 
 (defn cria-fila [& itens]
   (if (not (nil? itens))
-    (reduce conj h.model/fila-vazia itens)
+    (reduce conj h.model/fila-vazia (flatten itens))
     h.model/fila-vazia))
 
 (deftest cabe-na-fila?-test
@@ -28,6 +30,14 @@
 
   (testing "Não cabe em fila inexistente"
     (is (not (cabe-na-fila? {:espera (cria-fila)} :raio-x)))))
+
+(defspec coloca-uma-pessoa-em-filas-menores-que-5 100
+         (prop/for-all
+          [fila (gen/vector (gen/large-integer* {:min 1}) 1 4)
+           pessoa (gen/large-integer* {:min 1})]                                  ; passamos o gerador, e não a amostra!!
+           (is (= {:espera (cria-fila fila pessoa)}
+                  (chega-em {:espera (cria-fila fila)} :espera pessoa))))
+  )
 
 (deftest chega-em-test
   (testing "Chega na fila com sucesso"

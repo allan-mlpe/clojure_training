@@ -17,3 +17,4 @@
 (println (gen/sample (gen/vector gen/nat)))                 ; gera amostra de 10 vetores de números naturais, de tamanhos variados
 (println (gen/sample (gen/vector gen/nat 6)))               ; gera amostra de 10 vetores de tamanho fixo igual a 6
 (println (gen/sample (gen/vector gen/nat 1 5)))             ; gera amostra de 10 vetores de tamanho variando de 1 a 5
+(println (gen/sample (gen/large-integer* {:min 1})))        ; gera amostra de números aleatórios, onde o menor número gerado será 1
