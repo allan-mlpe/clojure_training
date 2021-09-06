@@ -1,4 +1,6 @@
-(ns hospital.logic)
+(ns hospital.logic
+  (:require [schema.core :as s]
+            [hospital.model :as h.model]))
 
 (defn cabe-na-fila?
   [hospital departamento]
@@ -7,24 +9,30 @@
       count
       (< 5)))
 
-(defn chega-em
-  [hospital departamento pessoa]
+(s/defn chega-em :- h.model/Hospital
+  [hospital :- h.model/Hospital
+   departamento :- s/Keyword
+   pessoa :- h.model/PacienteID]
   (if (cabe-na-fila? hospital departamento)
     (update hospital departamento conj pessoa)
     (throw (ex-info "Fila cheia ou inexistente" {:pessoa pessoa :fila departamento}))))
 
-(defn atende
-  [hospital departamento]
+(s/defn atende :- h.model/Hospital
+  [hospital :- h.model/Hospital
+   departamento :- s/Keyword]
   (update hospital departamento pop))
 
-(defn proximo
-  [hospital departamento]
+(s/defn proximo :- h.model/PacienteID
+  [hospital :- h.model/Hospital
+   departamento :- s/Keyword]
   (-> hospital
       departamento
       peek))
 
-(defn transfere
-  [hospital fila-origem fila-destino]
+(s/defn transfere :- h.model/Hospital
+  [hospital :- h.model/Hospital
+   fila-origem :- s/Keyword
+   fila-destino :- s/Keyword]
   (let [proximo-da-fila (proximo hospital fila-origem)]
     (-> hospital
         (atende fila-origem)
