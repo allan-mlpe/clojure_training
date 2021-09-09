@@ -34,6 +34,9 @@
   (= (+ (count (get hospital fila-destino)) (count (get hospital fila-origem)))
      (+ (count (get hospital-atualizado fila-destino)) (count (get hospital-atualizado fila-origem)))))
 
+(defn total-de-pacientes [hospital]
+  (reduce + (map count (vals hospital))))
+
 (s/defn transfere :- h.model/Hospital
   [hospital :- h.model/Hospital
    fila-origem :- s/Keyword

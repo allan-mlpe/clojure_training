@@ -39,6 +39,8 @@
                   (chega-em {:espera (cria-fila fila)} :espera pessoa))))
   )
 
+
+;; curso anterior de testes
 (deftest chega-em-test
   (testing "Chega na fila com sucesso"
     (is (= {:espera (cria-fila 42)}
